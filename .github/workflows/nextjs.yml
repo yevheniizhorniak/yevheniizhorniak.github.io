@@ -1,10 +1,17 @@
-name: Deploy
+# Sample workflow for building and deploying a Next.js site to GitHub Pages
+#
+# To get started with Next.js see: https://nextjs.org/docs/getting-started
+#
+name: Deploy Next.js site to Pages
+
+defaults:
+  run:
+    working-directory: ./dev-blog
 
 on:
-  # Runs on pushes targeting the main branch
+  # Runs on pushes targeting the default branch
   push:
-    branches:
-      - main
+    branches: ["master"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -39,6 +46,7 @@ jobs:
         with:
           node-version: 22
           cache: 'pnpm'
+          cache-dependency-path: './dev-blog/pnpm-lock.yaml'
 
       - name: Install dependencies
         run: pnpm install
@@ -66,7 +74,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./out
+          path: ./dev-blog/out
 
   deploy:
     environment:
